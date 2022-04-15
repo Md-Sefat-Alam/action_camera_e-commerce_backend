@@ -197,6 +197,23 @@ app.put("/user/removeadmin/:email", (req, res) => {
   });
 });
 
+app.post("/review", (req, res) => {
+  client.connect((err) => {
+    const collection = client.db("action_camera").collection("review");
+    const result = collection.insertOne(req.body);
+    res.send(result);
+    // client.close();
+  });
+});
+app.get("/review", (req, res) => {
+  client.connect(async (err) => {
+    const collection = client.db("action_camera").collection("review");
+    const result = collection.find({});
+    const review = await result.toArray();
+    res.send(review);
+    // client.close();
+  });
+});
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
